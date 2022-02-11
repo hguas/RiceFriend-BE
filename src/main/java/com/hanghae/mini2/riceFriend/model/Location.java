@@ -1,5 +1,6 @@
 package com.hanghae.mini2.riceFriend.model;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "location")
+@ApiModel(value = "LOCATION_TABLE", description = " 지역 TABLE")
 public class Location {
 
     @Id

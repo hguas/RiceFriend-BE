@@ -1,5 +1,6 @@
 package com.hanghae.mini2.riceFriend.model;
 
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,7 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "comment")
-public class Comment extends Timestamp{
+@ApiModel(value = "COMMENT_TABLE", description = "댓글 TABLE")
+public class Comment extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package com.hanghae.mini2.riceFriend.model;
 
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "meeting_user")
+@ApiModel(value = "MEETING_USER_TABLE", description = "모임 참가자 정보 TABLE")
 public class MeetingUser {
 
     @Id

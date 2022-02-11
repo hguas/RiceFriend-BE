@@ -1,6 +1,7 @@
 package com.hanghae.mini2.riceFriend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "user")
+@ApiModel(value = "USER_TABLE", description = "유저 TABLE")
 public class User extends Timestamp {
 
     @Id

@@ -1,6 +1,7 @@
 package com.hanghae.mini2.riceFriend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,10 +15,12 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "meeting")
+@ApiModel(value = "MEETING_TABLE", description = "모임 정보 TABLE")
 public class Meeting extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "meet_id")
     public Long id;
 
     public String title;

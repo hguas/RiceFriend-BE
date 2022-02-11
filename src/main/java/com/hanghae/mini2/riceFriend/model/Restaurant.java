@@ -1,6 +1,7 @@
 package com.hanghae.mini2.riceFriend.model;
 
 
+import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "restaurant")
+@ApiModel(value = "RESTAURANT_TABLE", description = "음식점 TABLE")
 public class Restaurant extends Timestamp {
 
     @Id
