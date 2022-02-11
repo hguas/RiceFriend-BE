@@ -1,8 +1,11 @@
 package com.hanghae.mini2.riceFriend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -10,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "user")
-public class User extends Timestamp{
+public class User extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +30,19 @@ public class User extends Timestamp{
     @Enumerated(EnumType.STRING)
     public Role role;
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties({"user"})
+    public List<Restaurant> restaurant = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties({"user"})
+    public List<Meeting> meeting = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties({"user"})
+    public List<MeetingUser> meetingUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties({"user"})
+    public List<Comment> comments = new ArrayList<>();
 }

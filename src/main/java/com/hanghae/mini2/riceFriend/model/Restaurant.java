@@ -21,11 +21,14 @@ public class Restaurant extends Timestamp {
 
     public String image_url;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     public User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
     public Location location;
+
+    @OneToOne(mappedBy = "restaurant")
+    public Meeting meeting;
 }

@@ -17,8 +17,10 @@ public class MeetingUser {
     public Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "meeting_id")
     public Meeting meeting;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     public User user;
 }

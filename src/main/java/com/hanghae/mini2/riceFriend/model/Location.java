@@ -20,4 +20,7 @@ public class Location {
     public Long id;
 
     public String name;
+
+    @OneToOne(mappedBy = "location")
+    public Restaurant restaurant;
 }

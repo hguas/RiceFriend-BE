@@ -1,9 +1,11 @@
 package com.hanghae.mini2.riceFriend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -35,6 +37,11 @@ public class Meeting extends Timestamp {
     public Restaurant restaurant;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"meeting"})
     @OrderBy("id desc")
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "meeting")
+    @JsonIgnoreProperties({"meeting"})
+    private List<MeetingUser> meetingUsers = new ArrayList<>();
 }
