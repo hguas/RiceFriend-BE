@@ -12,12 +12,16 @@ import org.springframework.http.HttpHeaders;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RiceFriendApplicationTests {
 
-	@Autowired
-	private TestRestTemplate restTemplate;
+    @Autowired
+    private TestRestTemplate restTemplate;
 
-	@Test
-	@DisplayName("모임 전체 조회")
-	void test1() {
+    private HttpHeaders headers;
+    private ObjectMapper mapper = new ObjectMapper();
 
-	}
+    @Test
+    @DisplayName("")
+    void test1() {
+        System.out.println("테스트시작!!!");
+
+    }
 }

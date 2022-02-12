@@ -6,6 +6,7 @@ import com.hanghae.mini2.riceFriend.model.Restaurant;
 import com.hanghae.mini2.riceFriend.model.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @ApiModel(value = "모임 정보", description = "모임 정보 ResponseDto Class")
 public class MeetingRequestDto {
     // Restaurant 테이블

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -139,5 +140,50 @@ public class MeetingService {
         }
 
         // 이미 마감된 모임 조건!? 서버처리
+    }
+
+    // 모임 참여.
+    @Transactional
+    public void createMeetingUser(Long meeting_id, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new NullPointerException("로그인을 해주세요!"));
+
+        // 모임테이블 조회
+        Meeting meeting = meetingRepository.findById(meeting_id).orElseThrow(
+                () -> new NullPointerException("해당 모임이 존재하지 않습니다!"));
+
+        // 모임 참여자테이블 조회
+        Optional<MeetingUser> meetingUserChk = meetingUserRepository.findMeetingUserByMeetingAndUser(meeting, user);
+
+        // 모임 참가여부 체크
+        if (meetingUserChk.isPresent()) {
+            throw new IllegalArgumentException("이미 해당 모임에 참여하고 있습니다!");
+        }
+
+        MeetingUser meetingUser = MeetingUser.builder()
+                .meeting(meeting)
+                .user(user)
+                .build();
+
+        // 모임 참여.
+        meetingUserRepository.save(meetingUser);
+    }
+
+    // 모임 탈퇴.
+    @Transactional
+    public void deleteMeetingUser(Long meeting_id, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new NullPointerException("로그인을 해주세요!"));
+
+        // 모임테이블 조회
+        Meeting meeting = meetingRepository.findById(meeting_id).orElseThrow(
+                () -> new NullPointerException("해당 모임이 존재하지 않습니다!"));
+
+        // 모임 참여자테이블 조회
+        MeetingUser meetingUser = meetingUserRepository.findById(userId).orElseThrow(
+                () -> new NullPointerException("해당 모임에 참여 정보가 없습니다!"));
+
+        // 모임 탈퇴.
+        meetingUserRepository.deleteMeetingUserByMeetingAndUser(meeting, user);
     }
 }
