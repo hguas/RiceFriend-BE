@@ -1,6 +1,7 @@
 package com.hanghae.mini2.riceFriend.model;
 
 
+import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 

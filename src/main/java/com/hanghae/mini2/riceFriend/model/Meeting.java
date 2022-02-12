@@ -1,6 +1,7 @@
 package com.hanghae.mini2.riceFriend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -47,4 +48,23 @@ public class Meeting extends Timestamp {
     @OneToMany(mappedBy = "meeting")
     @JsonIgnoreProperties({"meeting"})
     private List<MeetingUser> meetingUsers = new ArrayList<>();
+
+    public MeetingResonseDto toMeetingDetailResponseDto() {
+        int commentCount = this.comments.size();// 댓글개수
+        int memberCount = this.meetingUsers.size();// 참여인원
+
+        return MeetingResonseDto.builder()
+                .nickname(this.user.getNickname())
+                .userId(this.user.getId())
+                .imgUrl(this.restaurant.getImageUrl())
+                .locationId(this.restaurant.getLocation().getId())
+                .meetingId(this.getId())
+                .meetingTitle(this.getTitle())
+                .content(this.getContent())
+                .meetingDate(this.getDate())
+                .limitMember(this.getLimitMember())
+                .commentCount(commentCount)
+                .memberCount(memberCount)
+                .build();
+    }
 }
