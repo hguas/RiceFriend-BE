@@ -1,6 +1,7 @@
 package com.hanghae.mini2.riceFriend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanghae.mini2.riceFriend.dto.request.MeetingRequestDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -40,15 +41,17 @@ public class Meeting extends Timestamp {
     @JoinColumn(name = "restuarant_id")
     private Restaurant restaurant;
 
+    // 양방향 매핑
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"meeting"})
-    @OrderBy("id desc")
     private List<Comment> comments = new ArrayList<>();
 
+    // 양방향 매핑
     @OneToMany(mappedBy = "meeting")
     @JsonIgnoreProperties({"meeting"})
     private List<MeetingUser> meetingUsers = new ArrayList<>();
 
+    // 모임정보 조회 Dto
     public MeetingResonseDto toMeetingDetailResponseDto() {
         int commentCount = this.comments.size();// 댓글개수
         int memberCount = this.meetingUsers.size();// 참여인원
@@ -58,6 +61,7 @@ public class Meeting extends Timestamp {
                 .userId(this.user.getId())
                 .imgUrl(this.restaurant.getImageUrl())
                 .locationId(this.restaurant.getLocation().getId())
+                .locationName(this.restaurant.getLocation().getName())
                 .meetingId(this.getId())
                 .meetingTitle(this.getTitle())
                 .content(this.getContent())
@@ -66,5 +70,13 @@ public class Meeting extends Timestamp {
                 .commentCount(commentCount)
                 .memberCount(memberCount)
                 .build();
+    }
+
+    // 모임 테이블 UPDATE
+    public void updateMeeting(MeetingRequestDto requestDto) {
+        this.title = requestDto.getMeetingTitle();
+        this.content = requestDto.getContent();
+        this.date = requestDto.getMeetingDate();
+        this.limitMember = requestDto.getLimitMember();
     }
 }

@@ -24,6 +24,8 @@ public class MeetingResonseDto {
     private String imgUrl;
     @ApiModelProperty(value = "지역_ID")
     private Long locationId;
+    @ApiModelProperty(value = "지역명")
+    private String locationName;
 
     //MEETING 테이블
     @ApiModelProperty(value = "모임_ID")
