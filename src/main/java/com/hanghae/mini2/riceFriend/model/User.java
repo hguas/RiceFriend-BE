@@ -19,32 +19,32 @@ public class User extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
-    public String nickname;
+    private String nickname;
 
-    public String email;
+    private String email;
 
-    public String password;
+    private String password;
 
-    public String gender;
+    private String gender;
 
     @Enumerated(EnumType.STRING)
-    public Role role;
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties({"user"})
-    public List<Restaurant> restaurant = new ArrayList<>();
+    private List<Restaurant> restaurant = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties({"user"})
-    public List<Meeting> meeting = new ArrayList<>();
+    private List<Meeting> meeting = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties({"user"})
-    public List<MeetingUser> meetingUsers = new ArrayList<>();
+    private List<MeetingUser> meetingUsers = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties({"user"})
-    public List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 }
