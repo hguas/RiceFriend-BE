@@ -19,18 +19,19 @@ public class Restaurant extends Timestamp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public String name;
+    private String name;
 
-    public String image_url;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    public User user;
+    private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
-    public Location location;
+    private Location location;
 
     @OneToOne(mappedBy = "restaurant")
-    public Meeting meeting;
+    private Meeting meeting;
 }

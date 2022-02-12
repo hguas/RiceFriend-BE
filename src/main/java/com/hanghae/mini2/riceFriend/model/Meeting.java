@@ -20,24 +20,24 @@ public class Meeting extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "meet_id")
-    public Long id;
+    private Long id;
 
-    public String title;
+    private String title;
 
-    public String content;
+    private String content;
 
-    public LocalDateTime date;
+    private LocalDateTime date;
 
-    public int limitMember;
+    @Column(name = "limit_member")
+    private int limitMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    public User user;
+    private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restuarant_id")
-    public Restaurant restaurant;
+    private Restaurant restaurant;
 
     @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"meeting"})
