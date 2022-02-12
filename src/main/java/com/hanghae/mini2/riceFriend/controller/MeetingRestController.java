@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Api("Meeting Controller API")
@@ -17,17 +18,21 @@ public class MeetingRestController {
 
     private final MeetingService meetingService;
 
-    @GetMapping("/api/meeting")
+    @GetMapping("/api/meeting_id")
     @ApiOperation(value = "맛집모임 목록 조회.", notes = "맛집모임 목록을 조회한다.")
-    public void findMeetingList() {
+    public List<MeetingDetailResponseDto> findMeetingList() {
+        HashMap<String, Object> result = new HashMap<>();
         List<MeetingDetailResponseDto> meetingResponseDtos = meetingService.findMeetingList();
-//        return ;
+        result.put("meetingInfo", meetingResponseDtos);
+        result.put("result", "true");
+
+        return meetingResponseDtos;
     }
 
-    @GetMapping("/api/meeting/{meet_id}")
+    @GetMapping("/api/meeting/{meeting_id}")
     @ApiOperation(value = "맛집모임 정보를 조회.", notes = "선택한 맛집모임 정보를 조회한다.")
-    public void findMeeting(@PathVariable Long meet_id) {
-        MeetingDetailResponseDto meetingResponseDto = meetingService.findMeeting(meet_id);
+    public void findMeeting(@PathVariable Long meeting_id) {
+        MeetingDetailResponseDto meetingResponseDto = meetingService.findMeeting(meeting_id);
 //        return ;
     }
 
@@ -39,17 +44,17 @@ public class MeetingRestController {
 //        return ;
     }
 
-    @PutMapping("/api/register/{meet_id}")
+    @PutMapping("/api/register/{meeting_id}")
     @ApiOperation(value = "맛집모임 정보 수정.", notes = "맛집모임 정보를 수정한다.")
-    public void updateMeeting(@PathVariable Long meet_id, @RequestBody MeetingRequestDto requestDto) {
-        meetingService.updateMeeting(meet_id, requestDto);
+    public void updateMeeting(@PathVariable Long meeting_id, @RequestBody MeetingRequestDto requestDto) {
+        meetingService.updateMeeting(meeting_id, requestDto);
 //        return ;
     }
 
-    @DeleteMapping("/api/register/{meet_id}")
+    @DeleteMapping("/api/register/{meeting_id}")
     @ApiOperation(value = "맛집모임 정보 삭제.", notes = "맛집모임 정보를 삭제한다.")
-    public void deleteMeeting(@PathVariable Long meet_id) {
-        meetingService.deleteMeeting(meet_id);
+    public void deleteMeeting(@PathVariable Long meeting_id) {
+        meetingService.deleteMeeting(meeting_id);
 //        return
     }
 }

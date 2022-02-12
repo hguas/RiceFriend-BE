@@ -21,11 +21,13 @@ public class MeetingService {
     @Transactional
     public List<MeetingDetailResponseDto> findMeetingList() {
 
+
+
         return new ArrayList<MeetingDetailResponseDto>();
     }
 
     @Transactional
-    public MeetingDetailResponseDto findMeeting(Long meet_id) {
+    public MeetingDetailResponseDto findMeeting(Long meeting_id) {
 
         return new MeetingDetailResponseDto();
     }
@@ -36,12 +38,12 @@ public class MeetingService {
     }
 
     @Transactional
-    public MeetingDetailResponseDto updateMeeting(Long meet_id, MeetingRequestDto requestDto) {
+    public MeetingDetailResponseDto updateMeeting(Long meeting_id, MeetingRequestDto requestDto) {
         return new MeetingDetailResponseDto();
     }
 
     @Transactional
-    public void deleteMeeting(Long meet_id) {
-        meetingRepository.deleteById(meet_id);
+    public void deleteMeeting(Long meeting_id) {
+        meetingRepository.deleteById(meeting_id);
     }
 }
