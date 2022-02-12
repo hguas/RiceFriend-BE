@@ -10,8 +10,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Setter
 @Getter
-public class CMResponseDto<T> {
+public class CMResponseDto {
 
-    public T data;
     public String result;
 }

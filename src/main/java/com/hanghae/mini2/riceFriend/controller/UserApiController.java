@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -19,10 +21,7 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/user/signup")
-    public ResponseEntity<CMResponseDto<?>> signup(@RequestBody SignupRequestDto requestDto) {
-
-        userService.signup(requestDto);
-
-        return ResponseEntity.ok(new CMResponseDto<>());
+    public ResponseEntity<CMResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) {
+        return userService.signup(requestDto);
     }
 }
