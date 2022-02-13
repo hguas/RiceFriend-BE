@@ -38,10 +38,8 @@ public class MeetingRestController {
     public MeetingDetailResponseDto findMeeting(@PathVariable Long meeting_id) {
         HashMap<String, Object> result = new HashMap<>();
 
-        /////////////////////////////////////////////////////////////////////////
-        //테스트 데이터영역
+        ///////////////////////////테스트 데이터영역////////////////////////////////
         meeting_id = 1L;
-        /////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////
 
         MeetingDetailResponseDto meetingDetailResponseDto = meetingService.findMeeting(meeting_id);
@@ -51,16 +49,37 @@ public class MeetingRestController {
         return meetingDetailResponseDto;
     }
 
+
+    // 테스트용(성공!!!)
+//    @GetMapping("/api/meeting/test")
+//    @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
+//    public HashMap<String, Object> createMeeting(Long userId) {
+//        HashMap<String, Object> result = new HashMap<>();
+//
+//        ///////////////////////////테스트 데이터영역////////////////////////////////
+//        userId = 1L;
+//        MeetingRequestDto meetingRequestDto = MeetingRequestDto.builder()
+//                .restaurantName("음식점이름_test")
+//                .restaurantUrl("음식점url_test")
+//                .locationId(11L)
+//                .meetingTitle("모임날짜_test")
+//                .content("모임내용_test")
+//                .meetingDate(LocalDateTime.now())
+//                .limitMember(3)
+//                .build();
+//
+//        meetingService.createMeeting(meetingRequestDto, userId);
+//        /////////////////////////////////////////////////////////////////////////
+//
+//        result.put("result", "true");
+//
+//        return result;
+//    }
+
     @PostMapping("/api/meeting")
     @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
     public HashMap<String, Object> createMeeting(@RequestBody MeetingRequestDto requestDto, Long userId) {
         HashMap<String, Object> result = new HashMap<>();
-
-        /////////////////////////////////////////////////////////////////////////
-        //테스트 데이터영역
-        MeetingRequestDto meetingRequestDto = MeetingRequestDto.builder().restaurantName("음식점이름_test").restaurantUrl("음식점url_test").locationId(11L).meetingTitle("모임날짜_test").content("모임내용_test").meetingDate(LocalDateTime.now()).limitMember(3).build();
-        /////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////
 
         meetingService.createMeeting(requestDto, userId);
         result.put("result", "true");
@@ -73,11 +92,9 @@ public class MeetingRestController {
     public HashMap<String, Object> updateMeeting(@PathVariable Long meeting_id, @RequestBody MeetingRequestDto requestDto) {
         HashMap<String, Object> result = new HashMap<>();
 
-        /////////////////////////////////////////////////////////////////////////
-        //테스트 데이터영역
+        ///////////////////////////테스트 데이터영역////////////////////////////////
         meeting_id = 1L;
         MeetingRequestDto meetingRequestDto = MeetingRequestDto.builder().restaurantName("음식점이름_test2").restaurantUrl("음식점url_test2").locationId(30L).meetingTitle("모임날짜_test2").content("모임내용_test2").meetingDate(LocalDateTime.now()).limitMember(5).build();
-        /////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////
 
         meetingService.updateMeeting(meeting_id, requestDto);
@@ -102,11 +119,9 @@ public class MeetingRestController {
     public HashMap<String, Object> createMeetingUser(@PathVariable Long meeting_id, Long userId) {
         HashMap<String, Object> result = new HashMap<>();
 
-        /////////////////////////////////////////////////////////////////////////
-        //테스트 데이터영역
+        ///////////////////////////테스트 데이터영역////////////////////////////////
         meeting_id = 1L;
         userId = 2L;
-        /////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////
 
         meetingService.createMeetingUser(meeting_id, userId);
@@ -120,11 +135,9 @@ public class MeetingRestController {
     public HashMap<String, Object> deleteMeetingUser(@PathVariable Long meeting_id, Long userId) {
         HashMap<String, Object> result = new HashMap<>();
 
-        /////////////////////////////////////////////////////////////////////////
-        //테스트 데이터영역
+        ///////////////////////////테스트 데이터영역////////////////////////////////
         meeting_id = 1L;
         userId = 2L;
-        /////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////
 
         meetingService.deleteMeetingUser(meeting_id, userId);
