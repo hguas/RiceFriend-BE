@@ -12,8 +12,8 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @Getter
-@MappedSuperclass // 상속했을 때, 컬럼으로 인식하게 합니다.
-@EntityListeners(AuditingEntityListener.class) // 생성/수정 시간을 자동으로 반영하도록 설정
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class Timestamp {
 
     @CreatedDate

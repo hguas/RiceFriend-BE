@@ -7,10 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
+@Builder
 @Getter
 @Setter
-@Builder
 @ApiModel(value = "댓글 정보", description = "댓글 정보 ResponseDto Class")
 public class CommentResponseDto {
     //COMMENT 테이블
@@ -20,4 +21,8 @@ public class CommentResponseDto {
     private String content;
     @ApiModelProperty(value = "댓글 작성일자")
     private LocalDateTime createdAt;
+
+    // 생성자 생략
+
 }
+

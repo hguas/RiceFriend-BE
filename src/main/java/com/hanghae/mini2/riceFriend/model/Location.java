@@ -23,6 +23,6 @@ public class Location {
 
     private String name;
 
-    @OneToOne(mappedBy = "location", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "location")
     private Restaurant restaurant;
 }
