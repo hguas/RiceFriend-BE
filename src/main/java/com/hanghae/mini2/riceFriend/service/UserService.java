@@ -1,15 +1,22 @@
 package com.hanghae.mini2.riceFriend.service;
 
+import com.hanghae.mini2.riceFriend.config.jwt.JwtAuthenticationProvider;
+import com.hanghae.mini2.riceFriend.dto.request.LoginRequestDto;
 import com.hanghae.mini2.riceFriend.dto.request.SignupRequestDto;
 import com.hanghae.mini2.riceFriend.dto.response.CMResponseDto;
+import com.hanghae.mini2.riceFriend.handler.ex.EmailNotFoundException;
 import com.hanghae.mini2.riceFriend.handler.ex.InvalidException;
 import com.hanghae.mini2.riceFriend.model.Role;
 import com.hanghae.mini2.riceFriend.model.User;
 import com.hanghae.mini2.riceFriend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     public ResponseEntity<CMResponseDto> signup(SignupRequestDto requestDto) {
 
@@ -53,15 +61,45 @@ public class UserService {
         return ResponseEntity.ok(new CMResponseDto("true"));
     }
 
+    public ResponseEntity<CMResponseDto> login(LoginRequestDto requestDto, HttpServletResponse response) {
+
+        User userEntity = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(
+                () -> new EmailNotFoundException("가입되지 않은 이메일입니다.")
+        );
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), userEntity.getPassword()))
+            throw new InvalidException("비밀번호를 다시 입력해주세요.");
+
+
+        // 토큰 정보 생성
+        String token = jwtAuthenticationProvider.createToken(userEntity.getNickname(), userEntity.getEmail());
+        response.setHeader("X-AUTH-TOKEN", token);
+
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok(new CMResponseDto("true"));
+    }
+
     private boolean isDuplicatePassword(String rawPassword, String pwCheck) {
         return rawPassword.equals(pwCheck);
     }
 
     public boolean isExistEmail(String email) {
-        return userRepository.findByEmail(email) == null;
+        return !userRepository.findByEmail(email).isPresent();
     }
 
     private boolean isPasswordMatched(String email, String rawPassword) {
-        return !rawPassword.contains(email);
+        String domain = email.split("@")[0];
+        return !rawPassword.contains(domain);
+    }
+
+    public ResponseEntity<CMResponseDto> idCheck(SignupRequestDto requestDto) {
+        if(userRepository.findByEmail(requestDto.getEmail()).isPresent())
+            return ResponseEntity.ok(new CMResponseDto("false"));
+        return ResponseEntity.ok(new CMResponseDto("true"));
     }
 }

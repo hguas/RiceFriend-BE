@@ -20,5 +20,13 @@ public class CorsConfig {
 
         source.registerCorsConfiguration("/api/**", configuration);
         return new CorsFilter(source);
+
+//        @Override
+//        public void addCorsMappings(CorsRegistry registry) {
+//            registry.addMapping("/**")
+//                    .exposedHeaders("X-AUTH-TOKEN")
+//                    .allowCredentials(true)
+//                    .allowedOrigins("http://localhost:3000");
+//        }
     }
 }
