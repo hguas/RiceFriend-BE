@@ -1,11 +1,17 @@
 package com.hanghae.mini2.riceFriend.handler;
 
+import com.hanghae.mini2.riceFriend.handler.ex.EmailNotFoundException;
+import com.hanghae.mini2.riceFriend.handler.ex.ErrorCode;
 import com.hanghae.mini2.riceFriend.handler.ex.ErrorResponse;
 import com.hanghae.mini2.riceFriend.handler.ex.InvalidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Objects;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,4 +21,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(e.getErrorCode(), e.getMessage())
                 , HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEmailNotFoundException(EmailNotFoundException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode(), e.getMessage())
+                , HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return new ResponseEntity<>(new ErrorResponse(ErrorCode.BAD_REQUEST, Objects.requireNonNull(e.getFieldError()).getDefaultMessage())
+                , HttpStatus.valueOf(ErrorCode.BAD_REQUEST.getStatus()));
+    }
+
 }
