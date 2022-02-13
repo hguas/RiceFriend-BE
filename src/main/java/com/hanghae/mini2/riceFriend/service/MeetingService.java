@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,46 +25,21 @@ public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final MeetingUserRepository meetingUserRepository;
 
-    // 맛집모임 목록 조회.
+    // 맛집모임 목록 조회.(테스트완료!)
     @Transactional
     public List<MeetingResonseDto> findMeetingList() {
-//        List<Meeting> meetings = meetingRepository.findAllByOrderByCreatedAtDesc();
-//
-//        List<MeetingResonseDto> meetingResonseDtos = new ArrayList<>();
-//        for (Meeting meeting : meetings) {
-//            int commentCount = meeting.getComments().size();// 댓글개수
-//            int memberCount = meeting.getMeetingUsers().size();// 참여인원
-//
-//            MeetingResonseDto meetingResonseDto = MeetingResonseDto.builder()
-//                    .nickname(meeting.getUser().getNickname())
-//                    .userId(meeting.getUser().getId())
-//                    .imgUrl(meeting.getRestaurant().getImageUrl())
-//                    .locationId(meeting.getRestaurant().getLocation().getId())
-//                    .meetingId(meeting.getId())
-//                    .meetingTitle(meeting.getTitle())
-//                    .content(meeting.getContent())
-//                    .meetingDate(meeting.getDate())
-//                    .limitMember(meeting.getLimitMember())
-//                    .commentCount(commentCount)
-//                    .memberCount(memberCount)
-//                    .build();
-//
-//            meetingResonseDtos.add(meetingResonseDto);
-//        }
 
         // 맛집모임 목록정보 반환(toMeetingDetailResponseDto)
-        return meetingRepository.findAllByOrderByCreatedAtDesc().stream().map(meeting -> meeting.toMeetingDetailResponseDto()).collect(Collectors.toList());
+        return meetingRepository.findAllMeetingInfo().stream().
+                map(meeting -> meeting.toMeetingDetailResponseDto()).collect(Collectors.toList());
     }
 
-    // 맛집모임 정보를 조회.
+    // 맛집모임 정보를 조회.(테스트완료!)
     @Transactional
     public MeetingDetailResponseDto findMeeting(Long meeting_id) {
         // 모임테이블 조회
-        Meeting meeting = meetingRepository.findById(meeting_id).orElseThrow(
+        Meeting meeting = meetingRepository.findMeetingInfo(meeting_id).orElseThrow(
                 () -> new NullPointerException("해당 모임이 존재하지 않습니다!"));
-
-        int commentCount = meeting.getComments().size();// 댓글개수
-        int memberCount = meeting.getMeetingUsers().size();// 참여인원
 
         // 맛집모임 기본정보 셋팅
         MeetingResonseDto meetingResonseDto = meeting.toMeetingDetailResponseDto();
@@ -82,7 +56,8 @@ public class MeetingService {
                 .build();
     }
 
-    // 맛집모임 정보 등록.
+
+    // 맛집모임 정보 등록.(테스트완료!)
     @Transactional
     public void createMeeting(MeetingRequestDto requestDto, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
@@ -108,7 +83,7 @@ public class MeetingService {
         meetingUserRepository.save(meetingUser);
     }
 
-    // 맛집모임 정보 수정.
+    // 맛집모임 정보 수정.(테스트완료!)
     @Transactional
     public void updateMeeting(Long meeting_id, MeetingRequestDto requestDto) {
         // 모임테이블 조회
@@ -125,7 +100,7 @@ public class MeetingService {
         restaurant.updateRestaurant(requestDto, location);
     }
 
-    // 맛집모임 정보 삭제.
+    // 맛집모임 정보 삭제.(테스트완료!)
     @Transactional
     public void deleteMeeting(Long meeting_id, Long userId) {
         // 모임테이블 조회
@@ -135,7 +110,7 @@ public class MeetingService {
         // 서버에서 삭제권한 체크
         if (meeting.getUser().getId().equals(userId)) { // 모임 등록자 == 로그인 사용자
             // 해당 모임정보 삭제
-            meetingRepository.deleteById(meeting_id);
+            restaurantRepository.deleteById(meeting.getRestaurant().getId());
         } else {
             throw new IllegalArgumentException("모임 작성자만 삭제하실 수 있습니다!");
         }
@@ -143,7 +118,7 @@ public class MeetingService {
         // 이미 마감된 모임 조건!? 서버처리
     }
 
-    // 모임 참여.
+    // 모임 참여.(테스트완료!)
     @Transactional
     public void createMeetingUser(Long meeting_id, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
@@ -170,7 +145,7 @@ public class MeetingService {
         meetingUserRepository.save(meetingUser);
     }
 
-    // 모임 탈퇴.
+    // 모임 탈퇴.(테스트완료!)
     @Transactional
     public void deleteMeetingUser(Long meeting_id, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(
@@ -181,10 +156,10 @@ public class MeetingService {
                 () -> new NullPointerException("해당 모임이 존재하지 않습니다!"));
 
         // 모임 참여자테이블 조회
-        MeetingUser meetingUser = meetingUserRepository.findById(userId).orElseThrow(
+        MeetingUser meetingUser = meetingUserRepository.findMeetingUserByMeetingAndUser(meeting, user).orElseThrow(
                 () -> new NullPointerException("해당 모임에 참여 정보가 없습니다!"));
 
         // 모임 탈퇴.
-        meetingUserRepository.deleteMeetingUserByMeetingAndUser(meeting, user);
+        meetingUserRepository.deleteById(meetingUser.getId());
     }
 }

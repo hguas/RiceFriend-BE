@@ -1,9 +1,6 @@
 package com.hanghae.mini2.riceFriend.dto.request;
 
-import com.hanghae.mini2.riceFriend.model.Location;
-import com.hanghae.mini2.riceFriend.model.Meeting;
-import com.hanghae.mini2.riceFriend.model.Restaurant;
-import com.hanghae.mini2.riceFriend.model.User;
+import com.hanghae.mini2.riceFriend.model.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;

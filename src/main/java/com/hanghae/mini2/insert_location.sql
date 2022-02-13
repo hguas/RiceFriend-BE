@@ -17,6 +17,6 @@ VALUES
     (46, '전남'),
     (47, '경북'),
     (48, '경남'),
-    (50, '제주')
+    (50, '제주');
 
-SELECT * FROM PRAC.LOCATION
+SELECT * FROM PRAC.LOCATION;

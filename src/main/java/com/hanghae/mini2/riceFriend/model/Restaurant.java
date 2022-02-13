@@ -35,7 +35,7 @@ public class Restaurant extends Timestamp {
     private Location location;
 
     // 양방향 매핑
-    @OneToOne(mappedBy = "restaurant")
+    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Meeting meeting;
 
     // 음식점 테이블 UPDATE

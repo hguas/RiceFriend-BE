@@ -42,12 +42,12 @@ public class Meeting extends Timestamp {
     private Restaurant restaurant;
 
     // 양방향 매핑
-    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "meeting", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnoreProperties({"meeting"})
     private List<Comment> comments = new ArrayList<>();
 
     // 양방향 매핑
-    @OneToMany(mappedBy = "meeting")
+    @OneToMany(mappedBy = "meeting", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnoreProperties({"meeting"})
     private List<MeetingUser> meetingUsers = new ArrayList<>();
 
@@ -79,4 +79,5 @@ public class Meeting extends Timestamp {
         this.date = requestDto.getMeetingDate();
         this.limitMember = requestDto.getLimitMember();
     }
+
 }
