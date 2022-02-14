@@ -10,12 +10,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://13.124.254.39:3306/bobfriend?serverTimezone=Asia/Seoul
-    username: bob123
-    password: 1234
-#    url: jdbc:mysql://localhost:3306/week06?serverTimezone=Asia/Seoul
-#    username: week06
-#    password: cos1234
+    url: jdbc:mysql://localhost:3306/week06?serverTimezone=Asia/Seoul
+    username: week06
+    password: cos1234
 
   jpa:
     open-in-view: true
