@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAS57MNP6MOG4MV6FY
+      secretKey: 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
+    s3:
+      bucket: ricefriend-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

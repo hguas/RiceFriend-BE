@@ -7,10 +7,14 @@ import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingUserResponseDto;
 import com.hanghae.mini2.riceFriend.model.*;
 import com.hanghae.mini2.riceFriend.repository.*;
+import com.hanghae.mini2.riceFriend.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +28,9 @@ public class MeetingService {
     private final LocationRepository locationRepository;
     private final MeetingRepository meetingRepository;
     private final MeetingUserRepository meetingUserRepository;
+
+    private final S3Uploader s3Uploader;
+    private final String imageDirName = "static";
 
     // 맛집모임 목록 조회.(테스트완료!)
     @Transactional
@@ -56,15 +63,21 @@ public class MeetingService {
                 .build();
     }
 
-
     // 맛집모임 정보 등록.(테스트완료!)
     @Transactional
-    public void createMeeting(MeetingRequestDto requestDto, Long userId) {
+    public void createMeeting(MeetingRequestDto requestDto, MultipartFile multipartFile, Long userId) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("로그인을 해주세요!"));
 
         Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow(
                 () -> new NullPointerException("해당 지역은 존재하지 않습니다!"));
+
+        String imgUrl = "";
+
+        // 이미지 첨부 있으면 URL 에 S3에 업로드된 파일 url 저장
+        if (multipartFile.getSize() != 0) {
+            imgUrl = s3Uploader.upload(multipartFile, imageDirName);
+        }
 
         // RESTAURANT 테이블 저장
         Restaurant restaurant = requestDto.toRestaurantEntity(location, user);
@@ -82,6 +95,32 @@ public class MeetingService {
                 .build();
         meetingUserRepository.save(meetingUser);
     }
+
+    // 맛집모임 정보 등록.(테스트완료!)
+//    @Transactional
+//    public void createMeeting(MeetingRequestDto requestDto, Long userId) {
+//        User user = userRepository.findById(userId).orElseThrow(
+//                () -> new NullPointerException("로그인을 해주세요!"));
+//
+//        Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow(
+//                () -> new NullPointerException("해당 지역은 존재하지 않습니다!"));
+//
+//        // RESTAURANT 테이블 저장
+//        Restaurant restaurant = requestDto.toRestaurantEntity(location, user);
+//        restaurantRepository.save(restaurant);
+//
+//        // MEETING 테이블 저장
+//        Meeting meeting = requestDto.toMeetingEntity(user, restaurant);
+//        meetingRepository.save(meeting);
+//
+//        // MEETINGUSER 테이블 저장
+//        // 모임 등록자는 해당 모임의 참여자로 자동등록 되어야 한다!
+//        MeetingUser meetingUser = MeetingUser.builder()
+//                .meeting(meeting)
+//                .user(user)
+//                .build();
+//        meetingUserRepository.save(meetingUser);
+//    }
 
     // 맛집모임 정보 수정.(테스트완료!)
     @Transactional

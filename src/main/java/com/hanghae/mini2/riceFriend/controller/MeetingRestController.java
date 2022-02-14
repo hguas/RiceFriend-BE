@@ -4,11 +4,17 @@ import com.hanghae.mini2.riceFriend.dto.request.MeetingRequestDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingDetailResponseDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
 import com.hanghae.mini2.riceFriend.service.MeetingService;
+import com.hanghae.mini2.riceFriend.utils.S3Uploader;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,16 +49,55 @@ public class MeetingRestController {
         return meetingDetailResponseDto;
     }
 
-    @PostMapping("/api/meeting")
-    @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
-    public HashMap<String, Object> createMeeting(@RequestBody MeetingRequestDto requestDto, Long userId) {
-        HashMap<String, Object> result = new HashMap<>();
 
-        meetingService.createMeeting(requestDto, userId);
+    // 테스트용(파일업로드 구현중~~~)
+    @PostMapping("/api/meeting/test")
+    @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
+    public HashMap<String, Object> createMeeting(Long userId, @RequestParam("image")MultipartFile multipartFile) throws IOException {
+        HashMap<String, Object> result = new HashMap<>();
+        ///////////////////////////테스트 데이터영역////////////////////////////////
+        userId = 2L;
+        MeetingRequestDto meetingRequestDto = MeetingRequestDto.builder()
+                .restaurantName("음식점이름_test2")
+                .restaurantUrl("음식점url_test2")
+                .locationId(11L)
+                .meetingTitle("모임날짜_test2")
+                .content("모임내용_test2")
+                .meetingDate(LocalDateTime.now())
+                .limitMember(5)
+                .build();
+
+        meetingService.createMeeting(meetingRequestDto, multipartFile, userId);
+        /////////////////////////////////////////////////////////////////////////
+
         result.put("result", "true");
 
         return result;
     }
+
+
+    // 테스트용(파일업로드 구현중~~~)
+//    @PostMapping("/api/meeting")
+//    @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
+//    public HashMap<String, Object> createMeeting(@RequestBody MeetingRequestDto requestDto, @RequestBody(required = false) MultipartFile multipartFile, Long userId) throws IOException {
+//        HashMap<String, Object> result = new HashMap<>();
+//
+//        meetingService.createMeeting(requestDto, multipartFile, userId);
+//        result.put("result", "true");
+//
+//        return result;
+//    }
+
+//    @PostMapping("/api/meeting")
+//    @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
+//    public HashMap<String, Object> createMeeting(@RequestBody MeetingRequestDto requestDto, Long userId) {
+//        HashMap<String, Object> result = new HashMap<>();
+//
+//        meetingService.createMeeting(requestDto, userId);
+//        result.put("result", "true");
+//
+//        return result;
+//    }
 
     @PutMapping("/api/meeting/{meeting_id}")
     @ApiOperation(value = "맛집모임 정보 수정.", notes = "맛집모임 정보를 수정한다.")
