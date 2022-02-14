@@ -1,5 +1,6 @@
 package com.hanghae.mini2.riceFriend.model;
 
+import com.hanghae.mini2.riceFriend.dto.request.CommentRequestDto;
 import com.hanghae.mini2.riceFriend.dto.response.CommentResponseDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingUserResponseDto;
 import io.swagger.annotations.ApiModel;
@@ -19,29 +20,24 @@ public class Comment extends Timestamp {   // 생성, 수정시간을 자동으�
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false) // 추가
     private Long id;
 
-    @Column(nullable = false)  // 추가
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id")
-    @Column(nullable = false)  // 추가
     private Meeting meeting;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @Column(nullable = false)  // 추가
     private User user;
 
 
-    public Comment(String content, Meeting meeting, User user) {
-        super();
-        this.content = content;
-        this.meeting = meeting;
-        this.user = user;
-    }
+//    public Comment(String content, Meeting meeting, User user) {
+//        this.content = content;
+//        this.meeting = meeting;
+//        this.user = user;
+//    }
 
     public CommentResponseDto toCommentResponseDto() {
         return CommentResponseDto.builder()
@@ -51,6 +47,10 @@ public class Comment extends Timestamp {   // 생성, 수정시간을 자동으�
                 .build();
     }
 
+    public void updateComment (CommentRequestDto requestDto) {
+        this.content = requestDto.getContent();
+
+    }
 
 
 }

@@ -16,19 +16,19 @@ import java.time.LocalDateTime;
     public class CommentRequestDto {
 
         // Comment 테이블
-        @ApiModelProperty(value = "모임_ID")
-        private Long meetingId;
-        @ApiModelProperty(value = "댓글_ID")
-        private Long commentId;
+//        @ApiModelProperty(value = "모임_ID")
+//        private Long meetingId;
+//        @ApiModelProperty(value = "댓글_ID")
+//        private Long commentId;
         @ApiModelProperty(value = "댓글내용")
         private String content;
 
-//    public Comment toCommentEntity(Meeting meeting, User user, String content) {
-//        return Comment.builder()
-//                .content(content)
-//                .meeting(meeting)
-//                .user(user)
-//                .build();
-//    }
+    public Comment toCommentEntity(Meeting meeting, User user, String content) {
+        return Comment.builder()
+                .content(content)
+                .meeting(meeting)
+                .user(user)
+                .build();
+    }
 
 }
