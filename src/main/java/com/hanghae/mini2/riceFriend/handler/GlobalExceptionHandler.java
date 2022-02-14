@@ -1,9 +1,6 @@
 package com.hanghae.mini2.riceFriend.handler;
 
-import com.hanghae.mini2.riceFriend.handler.ex.EmailNotFoundException;
-import com.hanghae.mini2.riceFriend.handler.ex.ErrorCode;
-import com.hanghae.mini2.riceFriend.handler.ex.ErrorResponse;
-import com.hanghae.mini2.riceFriend.handler.ex.InvalidException;
+import com.hanghae.mini2.riceFriend.handler.ex.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +29,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ResponseEntity<>(new ErrorResponse(ErrorCode.BAD_REQUEST, Objects.requireNonNull(e.getFieldError()).getDefaultMessage())
                 , HttpStatus.valueOf(ErrorCode.BAD_REQUEST.getStatus()));
+    }
+
+    @ExceptionHandler(MeetingRequestException.class)
+    public ResponseEntity<ErrorResponse> handleMeetingRequestException(MeetingRequestException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode(), e.getMessage())
+                , HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
 }

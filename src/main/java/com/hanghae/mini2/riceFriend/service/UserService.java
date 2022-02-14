@@ -4,6 +4,7 @@ import com.hanghae.mini2.riceFriend.config.jwt.JwtAuthenticationProvider;
 import com.hanghae.mini2.riceFriend.dto.request.LoginRequestDto;
 import com.hanghae.mini2.riceFriend.dto.request.SignupRequestDto;
 import com.hanghae.mini2.riceFriend.dto.response.CMResponseDto;
+import com.hanghae.mini2.riceFriend.dto.response.LoginResponseDto;
 import com.hanghae.mini2.riceFriend.handler.ex.EmailNotFoundException;
 import com.hanghae.mini2.riceFriend.handler.ex.InvalidException;
 import com.hanghae.mini2.riceFriend.model.Role;
@@ -61,7 +62,7 @@ public class UserService {
         return ResponseEntity.ok(new CMResponseDto("true"));
     }
 
-    public ResponseEntity<CMResponseDto> login(LoginRequestDto requestDto, HttpServletResponse response) {
+    public ResponseEntity<LoginResponseDto> login(LoginRequestDto requestDto, HttpServletResponse response) {
 
         User userEntity = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(
                 () -> new EmailNotFoundException("가입되지 않은 이메일입니다.")
@@ -72,8 +73,8 @@ public class UserService {
 
 
         // 토큰 정보 생성
-        String token = jwtAuthenticationProvider.createToken(userEntity.getNickname(), userEntity.getEmail());
-        response.setHeader("X-AUTH-TOKEN", token);
+        String token = jwtAuthenticationProvider.createToken(userEntity.getNickname(), userEntity.getEmail(), userEntity.getGender());
+        //response.setHeader("X-AUTH-TOKEN", token);
 
         Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
         cookie.setPath("/");
@@ -81,7 +82,7 @@ public class UserService {
         cookie.setSecure(true);
         response.addCookie(cookie);
 
-        return ResponseEntity.ok(new CMResponseDto("true"));
+        return ResponseEntity.ok(new LoginResponseDto("true", token));
     }
 
     private boolean isDuplicatePassword(String rawPassword, String pwCheck) {
