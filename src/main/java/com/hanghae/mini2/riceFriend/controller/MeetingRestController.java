@@ -4,6 +4,7 @@ import com.hanghae.mini2.riceFriend.config.auth.PrincipalDetails;
 import com.hanghae.mini2.riceFriend.dto.request.MeetingRequestDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingDetailResponseDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
+import com.hanghae.mini2.riceFriend.handler.ex.MeetingRequestException;
 import com.hanghae.mini2.riceFriend.service.MeetingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
