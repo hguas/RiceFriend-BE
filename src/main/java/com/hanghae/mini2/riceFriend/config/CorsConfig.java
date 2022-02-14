@@ -18,7 +18,6 @@ public class CorsConfig {
         configuration.addAllowedHeader("*");
         configuration.addExposedHeader("X-AUTH-TOKEN");
         configuration.addAllowedMethod("*"); // 모든 http 메서드 요청을 허용
-        configuration.addAllowedOrigin("http://unsplashed.s3-website.ap-northeast-2.amazonaws.com/");
 
         source.registerCorsConfiguration("/api/**", configuration);
         return new CorsFilter(source);
