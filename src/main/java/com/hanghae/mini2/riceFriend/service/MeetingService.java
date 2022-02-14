@@ -59,9 +59,9 @@ public class MeetingService {
 
     // 맛집모임 정보 등록.(테스트완료!)
     @Transactional
-    public void createMeeting(MeetingRequestDto requestDto, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NullPointerException("로그인을 해주세요!"));
+    public void createMeeting(MeetingRequestDto requestDto, User user) {
+//        User user = userRepository.findById(userId).orElseThrow(
+//                () -> new NullPointerException("로그인을 해주세요!"));
 
         Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow(
                 () -> new NullPointerException("해당 지역은 존재하지 않습니다!"));

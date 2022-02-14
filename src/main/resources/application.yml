@@ -10,17 +10,20 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/week06?serverTimezone=Asia/Seoul
-    username: week06
-    password: cos1234
+    url: jdbc:mysql://13.124.254.39:3306/bobfriend?serverTimezone=Asia/Seoul
+    username: bob123
+    password: 1234
+#    url: jdbc:mysql://localhost:3306/week06?serverTimezone=Asia/Seoul
+#    username: week06
+#    password: cos1234
 
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
-    show-sql: false
+    show-sql: true
     properties:
       hibernate.format_sql: true
