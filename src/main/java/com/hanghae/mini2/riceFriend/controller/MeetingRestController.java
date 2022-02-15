@@ -62,7 +62,7 @@ public class MeetingRestController {
 //        userId = 5L;
 //        MeetingRequestDto meetingRequestDto = MeetingRequestDto.builder()
 //                .restaurantName("음식점이름_test5")
-//                .restaurantUrl("음식점url_test5")
+//                .imgUrl("음식점url_test5")
 //                .locationId(11L)
 //                .meetingTitle("모임날짜_test5")
 //                .content("모임내용_test5")
@@ -83,8 +83,8 @@ public class MeetingRestController {
 
     @PostMapping("/api/meeting")
     @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
-    public HashMap<String, Object> createMeeting(@RequestBody MeetingRequestDto requestDto,
-                                                 @RequestParam("image") MultipartFile multipartFile,
+    public HashMap<String, Object> createMeeting(@RequestPart(value = "data") MeetingRequestDto requestDto,
+                                                 @RequestPart(value = "image", required = false) MultipartFile multipartFile,
                                                  @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
 
         if (userDetails == null)
@@ -131,8 +131,8 @@ public class MeetingRestController {
     @PutMapping("/api/meeting/{meeting_id}")
     @ApiOperation(value = "맛집모임 정보 수정.", notes = "맛집모임 정보를 수정한다.")
     public HashMap<String, Object> updateMeeting(@PathVariable Long meeting_id,
-                                                 @RequestBody MeetingRequestDto requestDto,
-                                                 @RequestParam("image") MultipartFile multipartFile,
+                                                 @RequestPart(value = "data") MeetingRequestDto requestDto,
+                                                 @RequestPart(value = "image", required = false) MultipartFile multipartFile,
                                                  @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException{
 
         HashMap<String, Object> result = new HashMap<>();
