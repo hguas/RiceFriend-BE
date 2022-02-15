@@ -3,11 +3,11 @@ package com.hanghae.mini2.riceFriend.handler.ex;
 import lombok.Getter;
 
 @Getter
-public class EmailNotFoundException extends RuntimeException{
+public class MeetingRequestException extends RuntimeException {
 
     private ErrorCode errorCode;
 
-    public EmailNotFoundException(String message) {
+    public MeetingRequestException(String message) {
         super(message);
         this.errorCode = ErrorCode.BAD_REQUEST;
     }

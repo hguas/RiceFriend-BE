@@ -20,7 +20,6 @@ public class CommentService {
     private final MeetingRepository meetingRepository;
     private final UserRepository userRepository;
 
-
     // 댓글 등록
     @Transactional
     public void createComment(Long meeting_id, CommentRequestDto requestDto, Long userId) {

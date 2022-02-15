@@ -11,17 +11,21 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/localdb?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    url: jdbc:mysql://127.0.0.1:3306/localdb?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: prac
-    password: xkaxka66
+    url: jdbc:mysql://bobfriend.shop:3306/bobfriend?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: bob123
+    password: 1234
+
+
+#    username: prac
+#    password: xkaxka66
 
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
-    show-sql: false
+    show-sql: true
     properties:
       hibernate.format_sql: true

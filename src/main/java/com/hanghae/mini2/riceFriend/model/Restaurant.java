@@ -1,6 +1,8 @@
 package com.hanghae.mini2.riceFriend.model;
 
 
+import com.hanghae.mini2.riceFriend.dto.request.MeetingRequestDto;
+import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -32,6 +34,14 @@ public class Restaurant extends Timestamp {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @OneToOne(mappedBy = "restaurant")
+    // 양방향 매핑
+    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Meeting meeting;
+
+    // 음식점 테이블 UPDATE
+    public void updateRestaurant(MeetingRequestDto requestDto, Location location) {
+        this.name = requestDto.getRestaurantName();
+        this.imageUrl = requestDto.getRestaurantUrl();
+        this.location = location;
+    }
 }

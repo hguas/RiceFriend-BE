@@ -11,23 +11,29 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
 public class JwtAuthenticationProvider {
 
-    private String secretKey = "secret";
+    private String secretKey = "sparta";
 
     private Long tokenValidTime = 1000L * 60 * 60;
 
     private final PrincipalDetailsService principalDetailsService;
 
+
     // JWT 토큰 생성
-    public String createToken(String userPk, String email) {
-        Claims claims = Jwts.claims().setSubject(userPk); // JWT payload에 저장되는 정보 단위
-        claims.put("email", email); // 정보를 저장할 데이터 넣어주기
+    public String createToken(String userPk, String email, String gender) {
+        Claims claims = Jwts.claims().setSubject(userPk); // plaload에  정보 저장
+        claims.put("nickname", userPk); // 정보를 저장할 데이터 넣어주기
+        claims.put("email", email);
+        claims.put("gender", gender);
+
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -39,13 +45,13 @@ public class JwtAuthenticationProvider {
     }
 
     // 토큰에서 회원 정보 추출
-    public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    public String getUserEmail(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("email").toString();
     } // 추출하면 username, email등 유저의 정보가 나오게 됨.
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = principalDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = principalDetailsService.loadUserByUsername(this.getUserEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
