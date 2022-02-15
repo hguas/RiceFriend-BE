@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -83,10 +84,11 @@ public class MeetingRestController {
 
     @PostMapping("/api/meeting")
     @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
-    public HashMap<String, Object> createMeeting(@RequestPart(value = "data") MeetingRequestDto requestDto,
+    public HashMap<String, Object> createMeeting(@RequestPart(value = "data") @Valid MeetingRequestDto requestDto,
                                                  @RequestPart(value = "image", required = false) MultipartFile multipartFile,
                                                  @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
 
+        //System.out.println("userDetails = " + userDetails);
         if (userDetails == null)
             throw new MeetingRequestException("로그인 한 사용자만 작성할 수 있습니다.");
 

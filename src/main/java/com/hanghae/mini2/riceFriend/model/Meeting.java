@@ -60,6 +60,7 @@ public class Meeting extends Timestamp {
                 .nickname(this.user.getNickname())
                 .userId(this.user.getId())
                 .imgUrl(this.restaurant.getImageUrl())
+                .restaurantName(this.restaurant.getName())
                 .locationId(this.restaurant.getLocation().getId())
                 .locationName(this.restaurant.getLocation().getName())
                 .meetingId(this.getId())

@@ -22,6 +22,8 @@ public class MeetingResonseDto {
     private Long userId;
     @ApiModelProperty(value = "이미지_url")
     private String imgUrl;
+    @ApiModelProperty(value = "음식점명")
+    private String restaurantName;
     @ApiModelProperty(value = "지역_ID")
     private Long locationId;
     @ApiModelProperty(value = "지역명")
