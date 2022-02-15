@@ -18,7 +18,7 @@ public class MeetingRequestDto {
     @ApiModelProperty(value = "맛집이름")
     private String restaurantName;
     @ApiModelProperty(value = "이미지_url")
-    private String restaurantUrl;
+    private String imgUrl;
     @ApiModelProperty(value = "지역_ID")
     private Long locationId;
 
@@ -32,10 +32,10 @@ public class MeetingRequestDto {
     @ApiModelProperty(value = "모집인원")
     private int limitMember;
 
-    public Restaurant toRestaurantEntity(Location location, User user) {
+    public Restaurant toRestaurantEntity(Location location, String imgUrl, User user) {
         return Restaurant.builder()
                 .name(this.restaurantName)
-                .imageUrl(this.restaurantUrl)
+                .imageUrl(imgUrl)
                 .location(location)
                 .user(user)
                 .build();

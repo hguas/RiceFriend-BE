@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @Getter
@@ -23,6 +24,6 @@ public class Location {
 
     private String name;
 
-    @OneToOne(mappedBy = "location", fetch = FetchType.LAZY)
-    private Restaurant restaurant;
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+    private List<Restaurant> restaurant;
 }

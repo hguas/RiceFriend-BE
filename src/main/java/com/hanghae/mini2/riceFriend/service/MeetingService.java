@@ -5,6 +5,7 @@ import com.hanghae.mini2.riceFriend.dto.response.CommentResponseDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingDetailResponseDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingResonseDto;
 import com.hanghae.mini2.riceFriend.dto.response.MeetingUserResponseDto;
+import com.hanghae.mini2.riceFriend.handler.ex.ErrorCode;
 import com.hanghae.mini2.riceFriend.model.*;
 import com.hanghae.mini2.riceFriend.repository.*;
 import com.hanghae.mini2.riceFriend.utils.S3Uploader;
@@ -63,18 +64,54 @@ public class MeetingService {
                 .build();
     }
 
+    // test1.맛집모임 등록(테스트용입니다!!!)
+//    @Transactional
+//    public void createMeeting(MeetingRequestDto requestDto, MultipartFile multipartFile, Long userId) throws IOException {
+//        User user = userRepository.findById(userId).orElseThrow(
+//                () -> new NullPointerException("로그인을 해주세요!"));
+//
+//        Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow(
+//                () -> new NullPointerException("해당 지역은 존재하지 않습니다!"));
+//
+//        String imgUrl = "";
+//
+//        // 이미지 첨부 있으면 URL 에 S3에 업로드된 파일 url 저장
+//        if (multipartFile.getSize() != 0) {
+//            imgUrl = s3Uploader.upload(multipartFile, imageDirName);
+//        }
+//
+//        // RESTAURANT 테이블 저장
+//        Restaurant restaurant = requestDto.toRestaurantEntity(location, imgUrl, user);
+//        restaurantRepository.save(restaurant);
+//
+//        // MEETING 테이블 저장
+//        Meeting meeting = requestDto.toMeetingEntity(user, restaurant);
+//        meetingRepository.save(meeting);
+//
+//        // MEETINGUSER 테이블 저장
+//        // 모임 등록자는 해당 모임의 참여자로 자동등록 되어야 한다!
+//        MeetingUser meetingUser = MeetingUser.builder()
+//                .meeting(meeting)
+//                .user(user)
+//                .build();
+//        meetingUserRepository.save(meetingUser);
+//    }
 
     // 맛집모임 정보 등록.(테스트완료!)
     @Transactional
-    public void createMeeting(MeetingRequestDto requestDto, User user) {
-//        User user = userRepository.findById(userId).orElseThrow(
-//                () -> new NullPointerException("로그인을 해주세요!"));
-
+    public void createMeeting(MeetingRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
         Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow(
                 () -> new NullPointerException("해당 지역은 존재하지 않습니다!"));
 
+        String imgUrl = "";
+
+        // 이미지 첨부 있으면 URL 에 S3에 업로드된 파일 url 저장
+        if (multipartFile.getSize() != 0) {
+            imgUrl = s3Uploader.upload(multipartFile, imageDirName);
+        }
+
         // RESTAURANT 테이블 저장
-        Restaurant restaurant = requestDto.toRestaurantEntity(location, user);
+        Restaurant restaurant = requestDto.toRestaurantEntity(location, imgUrl, user);
         restaurantRepository.save(restaurant);
 
         // MEETING 테이블 저장
@@ -90,9 +127,39 @@ public class MeetingService {
         meetingUserRepository.save(meetingUser);
     }
 
+    // Test2.맛집모임 정보 수정.(테스트용입니다!!!)
+//    @Transactional
+//    public void updateMeeting(Long meeting_id, MeetingRequestDto requestDto, MultipartFile multipartFile, Long userId) throws IOException {
+//        // 모임테이블 조회
+//        Meeting meeting = meetingRepository.findById(meeting_id).orElseThrow(
+//                () -> new NullPointerException("해당 모임이 존재하지 않습니다!"));
+//
+//        Restaurant restaurant = restaurantRepository.findById(meeting.getId()).orElseThrow(
+//                () -> new NullPointerException("해당 음식점은 존재하지 않습니다!"));
+//
+//        Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow(
+//                () -> new NullPointerException("해당 지역은 존재하지 않습니다!"));
+//
+//        // 사용자 조회 (작성자와 수정자가 같은지 확인)
+//        if (!meeting.getUser().getId().equals(userId)) {
+//            throw new IllegalArgumentException("해당 게시물에 삭제권한이 없습니다!");
+//        }
+//
+//        String imgUrl = "";
+//        // 이미지 첨부 있으면 URL 에 S3에 업로드된 파일 url 저장 -> 객체 업데이트
+//        // 첨부 없으면 URL 에 NULL 값 저장 -> 객체 업데이트
+//        if (multipartFile.getSize() != 0) {
+//            imgUrl = s3Uploader.upload(multipartFile, imageDirName);
+//        }
+//
+//        meeting.updateMeeting(requestDto);
+//        // imgUrl update
+//        restaurant.updateRestaurant(requestDto, location, imgUrl);
+//    }
+
     // 맛집모임 정보 수정.(테스트완료!)
     @Transactional
-    public void updateMeeting(Long meeting_id, MeetingRequestDto requestDto) {
+    public void updateMeeting(Long meeting_id, MeetingRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
         // 모임테이블 조회
         Meeting meeting = meetingRepository.findById(meeting_id).orElseThrow(
                 () -> new NullPointerException("해당 모임이 존재하지 않습니다!"));
@@ -103,8 +170,21 @@ public class MeetingService {
         Location location = locationRepository.findById(requestDto.getLocationId()).orElseThrow(
                 () -> new NullPointerException("해당 지역은 존재하지 않습니다!"));
 
+        // 사용자 조회 (작성자와 수정자가 같은지 확인)
+        if (!meeting.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("해당 게시물에 삭제권한이 없습니다!");
+        }
+
+        String imgUrl = "";
+        // 이미지 첨부 있으면 URL 에 S3에 업로드된 파일 url 저장 -> 객체 업데이트
+        // 첨부 없으면 URL 에 NULL 값 저장 -> 객체 업데이트
+        if (multipartFile.getSize() != 0) {
+            imgUrl = s3Uploader.upload(multipartFile, imageDirName);
+        }
+
         meeting.updateMeeting(requestDto);
-        restaurant.updateRestaurant(requestDto, location);
+        // imgUrl update
+        restaurant.updateRestaurant(requestDto, location, imgUrl);
     }
 
     // 맛집모임 정보 삭제.(테스트완료!)
@@ -116,6 +196,8 @@ public class MeetingService {
 
         // 서버에서 삭제권한 체크
         if (meeting.getUser().getId().equals(userId)) { // 모임 등록자 == 로그인 사용자
+            // s3 파일 삭제
+//            s3Uploader.deleteFile(meeting.getRestaurant().getImageUrl());
             // 해당 모임정보 삭제
             restaurantRepository.deleteById(meeting.getRestaurant().getId());
         } else {

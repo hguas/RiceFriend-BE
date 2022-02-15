@@ -30,7 +30,7 @@ public class Restaurant extends Timestamp {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
     private Location location;
 
@@ -39,9 +39,9 @@ public class Restaurant extends Timestamp {
     private Meeting meeting;
 
     // 음식점 테이블 UPDATE
-    public void updateRestaurant(MeetingRequestDto requestDto, Location location) {
+    public void updateRestaurant(MeetingRequestDto requestDto, Location location, String imgUrl) {
         this.name = requestDto.getRestaurantName();
-        this.imageUrl = requestDto.getRestaurantUrl();
+        this.imageUrl = imgUrl;
         this.location = location;
     }
 }

@@ -2,6 +2,7 @@ package com.hanghae.mini2.riceFriend.utils;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,11 @@ public class S3Uploader {
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
         return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
+
+    // S3로 파일 삭제
+    public void deleteFile(String deleteFile) {
+        amazonS3Client.deleteObject(bucket, deleteFile);
     }
 
     // 로컬에 저장된 이미지 지우기

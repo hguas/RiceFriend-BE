@@ -11,7 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,28 +49,108 @@ public class MeetingRestController {
         return meetingDetailResponseDto;
     }
 
+    // (테스트중...파일업로드)
+//    @PostMapping("/api/meeting/test")
+//    @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
+//    public HashMap<String, Object> createMeeting(Long userId,
+//                                                 @RequestParam("image") MultipartFile multipartFile) throws IOException {
+//
+////        if (userDetails == null)
+////            throw new MeetingRequestException("로그인 한 사용자만 작성할 수 있습니다.");
+//
+//        /////////////////////////////테스트 데이터영역////////////////////////////////
+//        userId = 5L;
+//        MeetingRequestDto meetingRequestDto = MeetingRequestDto.builder()
+//                .restaurantName("음식점이름_test5")
+//                .restaurantUrl("음식점url_test5")
+//                .locationId(11L)
+//                .meetingTitle("모임날짜_test5")
+//                .content("모임내용_test5")
+//                .meetingDate(LocalDateTime.now())
+//                .limitMember(2)
+//                .build();
+//
+//        meetingService.createMeeting(meetingRequestDto, multipartFile, userId);
+//        /////////////////////////////////////////////////////////////////////////
+//
+//        HashMap<String, Object> result = new HashMap<>();
+//
+////        meetingService.createMeeting(requestDto, multipartFile, userDetails.getUser());
+//        result.put("result", "true");
+//
+//        return result;
+//    }
+
     @PostMapping("/api/meeting")
     @ApiOperation(value = "맛집모임 정보 등록.", notes = "맛집모임 정보를 입력받아 등록한다.")
     public HashMap<String, Object> createMeeting(@RequestBody MeetingRequestDto requestDto,
-                                                 @AuthenticationPrincipal PrincipalDetails userDetails) {
+                                                 @RequestParam("image") MultipartFile multipartFile,
+                                                 @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException {
 
         if (userDetails == null)
             throw new MeetingRequestException("로그인 한 사용자만 작성할 수 있습니다.");
 
         HashMap<String, Object> result = new HashMap<>();
 
-        meetingService.createMeeting(requestDto, userDetails.getUser());
+        meetingService.createMeeting(requestDto, multipartFile, userDetails.getUser());
         result.put("result", "true");
 
         return result;
     }
 
+    // (테스트중...파일업로드)
+//    @PutMapping("/api/meeting/test2")
+//    @ApiOperation(value = "맛집모임 정보 수정.", notes = "맛집모임 정보를 수정한다.")
+//    public HashMap<String, Object> updateMeeting(Long meeting_id,
+//                                                 @RequestParam("image") MultipartFile multipartFile,
+//                                                 Long userId) throws IOException{
+//
+//        HashMap<String, Object> result = new HashMap<>();
+//
+//        /////////////////////////////테스트 데이터영역////////////////////////////////
+//        meeting_id = 1L;
+//        userId = 5L;
+//        MeetingRequestDto meetingRequestDto = MeetingRequestDto.builder()
+//                .restaurantName("음식점이름_test3")
+//                .restaurantUrl("음식점url_test3")
+//                .locationId(11L)
+//                .meetingTitle("모임날짜_test3")
+//                .content("모임내용_test3")
+//                .meetingDate(LocalDateTime.now())
+//                .limitMember(3)
+//                .build();
+//
+//        meetingService.updateMeeting(meeting_id, meetingRequestDto, multipartFile, userId);
+//        /////////////////////////////////////////////////////////////////////////
+//
+//        result.put("result", "true");
+//
+//        return result;
+//    }
+
     @PutMapping("/api/meeting/{meeting_id}")
     @ApiOperation(value = "맛집모임 정보 수정.", notes = "맛집모임 정보를 수정한다.")
-    public HashMap<String, Object> updateMeeting(@PathVariable Long meeting_id, @RequestBody MeetingRequestDto requestDto) {
+    public HashMap<String, Object> updateMeeting(@PathVariable Long meeting_id,
+                                                 @RequestBody MeetingRequestDto requestDto,
+                                                 @RequestParam("image") MultipartFile multipartFile,
+                                                 @AuthenticationPrincipal PrincipalDetails userDetails) throws IOException{
+
         HashMap<String, Object> result = new HashMap<>();
 
-        meetingService.updateMeeting(meeting_id, requestDto);
+        meetingService.updateMeeting(meeting_id, requestDto, multipartFile, userDetails.getUser());
+        result.put("result", "true");
+
+        return result;
+    }
+
+    @DeleteMapping("/api/meeting/test3")
+    @ApiOperation(value = "맛집모임 정보 삭제.", notes = "맛집모임 정보를 삭제한다.")
+    public HashMap<String, Object> deleteMeeting(Long meeting_id,
+                                                 Long userId) {
+        HashMap<String, Object> result = new HashMap<>();
+        meeting_id = 1L;
+        userId = 5L;
+        meetingService.deleteMeeting(meeting_id, userId);
         result.put("result", "true");
 
         return result;
