@@ -37,7 +37,7 @@ public class UserApiController {
 
     @PostMapping("/user/idCheck")
     @ApiOperation(value = "아이디 중복 체크", notes = "회원가입시 아이디 중복 여부를 체크한다.")
-    public ResponseEntity<CMResponseDto> idCheck(@RequestBody SignupRequestDto requestDto) {
+    public ResponseEntity<CMResponseDto> idCheck(@RequestBody @Valid SignupRequestDto requestDto) {
         return userService.idCheck(requestDto);
     }
 }

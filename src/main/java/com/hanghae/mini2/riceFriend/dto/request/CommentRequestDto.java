@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,12 +16,8 @@ import java.time.LocalDateTime;
 @ApiModel(value = "댓글 정보", description = "댓글 정보 ResponseDto Class")
 public class CommentRequestDto {
 
-    // Comment 테이블
-//        @ApiModelProperty(value = "모임_ID")
-//        private Long meetingId;
-//        @ApiModelProperty(value = "댓글_ID")
-//        private Long commentId;
     @ApiModelProperty(value = "댓글내용")
+    @NotBlank(message = "댓글 내용을 입력해주세요.")
     private String content;
 
     public Comment toCommentEntity(Meeting meeting, User user, String content) {

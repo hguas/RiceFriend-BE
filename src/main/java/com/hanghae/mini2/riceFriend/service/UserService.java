@@ -5,8 +5,7 @@ import com.hanghae.mini2.riceFriend.dto.request.LoginRequestDto;
 import com.hanghae.mini2.riceFriend.dto.request.SignupRequestDto;
 import com.hanghae.mini2.riceFriend.dto.response.CMResponseDto;
 import com.hanghae.mini2.riceFriend.dto.response.LoginResponseDto;
-import com.hanghae.mini2.riceFriend.handler.ex.EmailNotFoundException;
-import com.hanghae.mini2.riceFriend.handler.ex.InvalidException;
+import com.hanghae.mini2.riceFriend.handler.ex.*;
 import com.hanghae.mini2.riceFriend.model.Role;
 import com.hanghae.mini2.riceFriend.model.User;
 import com.hanghae.mini2.riceFriend.repository.UserRepository;
@@ -35,13 +34,13 @@ public class UserService {
 
         // 유효성 체크
         if (!isPasswordMatched(email, rawPassword))
-            throw new InvalidException("비밀번호에 아이디가 들어갈 수 없습니다.");
+            throw new PasswordContainsEmailException("비밀번호에 아이디가 들어갈 수 없습니다.");
 
         if (!isExistEmail(email))
-            throw new InvalidException("이미 존재하는 아이디 입니다.");
+            throw new DuplicateEmailException("이미 존재하는 아이디 입니다.");
 
         if (!isDuplicatePassword(rawPassword, pwCheck)) {
-            throw new InvalidException("비밀번호가 일치하지 않습니다.");
+            throw new PasswordNotCollectException();
         }
 
         // 비밀번호 암호화
@@ -69,7 +68,7 @@ public class UserService {
         );
 
         if (!passwordEncoder.matches(requestDto.getPassword(), userEntity.getPassword()))
-            throw new InvalidException("비밀번호를 다시 입력해주세요.");
+            throw new PasswordNotCollectException();
 
 
         // 토큰 정보 생성

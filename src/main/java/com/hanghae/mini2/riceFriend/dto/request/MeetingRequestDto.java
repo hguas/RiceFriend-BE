@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,7 +20,7 @@ public class MeetingRequestDto {
     @NotBlank(message = "음식점 이름을 작성해주세요.")
     @ApiModelProperty(value = "맛집이름")
     private String restaurantName;
-    @NotBlank(message = "지역을 선택해주세요.")
+    @NotNull(message = "지역을 선택해주세요.")
     @ApiModelProperty(value = "지역_ID")
     private Long locationId;
     // Meeting 테이블
@@ -29,10 +30,10 @@ public class MeetingRequestDto {
     @NotBlank(message = "모임 내용을 작성해주세요.")
     @ApiModelProperty(value = "모임내용")
     private String content;
-    @NotBlank(message = "모임 날짜를 입력해주세요.")
+    @NotNull(message = "모임 날짜를 입력해주세요.")
     @ApiModelProperty(value = "모임날짜")
     private LocalDateTime meetingDate;
-    @NotBlank(message = "모집 인원을 선택해주세요.")
+    @NotNull(message = "모집 인원을 선택해주세요.")
     @ApiModelProperty(value = "모집인원")
     private int limitMember;
 
