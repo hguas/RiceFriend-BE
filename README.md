@@ -1,15 +1,14 @@
 # 👀 밥친구 (Back-End)
-
+![img_2.png](img_2.png)
 
 
 >**맛집 탐방 모임 커뮤니티**
 
 <br />   
 
-- [\[사이트 바로가기\]](http://interfere.s3-website.ap-northeast-2.amazonaws.com)
-- [\[시연영상 구경하기\]](https://youtu.be/2x7vr6RrlzE)
+노션 뷰 : https://apricot-tarsal-29a.notion.site/4-535a31259dae4ec5bda10de21df55c72
+
 ---
-<br />
 
 🧑🏻‍💻 팀원소개
 ---
