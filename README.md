@@ -27,7 +27,7 @@
 
 - 게시글 CRUD 구현, 이미지 파일 등록(S3) 구현, 테스트 작성
 
-### [Front-end] 
+### [FRONT-END] 
 🧑🏻‍💻 [차민재](https://github.com/letminjae) <br/>
 
 🧑🏻‍💻 [한우진](https://github.com/han-woo-jin)
