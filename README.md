@@ -31,7 +31,7 @@
 
 🧑🏻‍💻 [한우진](https://github.com/han-woo-jin)
 
-#### [\[Front-End Github\]](https://github.com/youHaveToDo/FE_interfereOfLove)
+#### [\[Front-End Github\]](https://github.com/letminjae/RiceFriend_FE)
 
 ## 🗓 스케줄링
 #### 2022년 02월 11일 ~ 2022년 02월 17일
