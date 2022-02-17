@@ -15,6 +15,8 @@ import java.util.Date;
 @ApiModel(value = "댓글 정보", description = "댓글 정보 ResponseDto Class")
 public class CommentResponseDto {
     //COMMENT 테이블
+    @ApiModelProperty(value = "댓글 ID")
+    private Long commentId;
     @ApiModelProperty(value = "댓글 작성자 닉네임")
     private String nickname;
     @ApiModelProperty(value = "댓글 내용")

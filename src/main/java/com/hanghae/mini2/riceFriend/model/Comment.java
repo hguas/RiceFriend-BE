@@ -32,15 +32,9 @@ public class Comment extends Timestamp {   // 생성, 수정시간을 자동으�
     @JoinColumn(name = "user_id")
     private User user;
 
-
-//    public Comment(String content, Meeting meeting, User user) {
-//        this.content = content;
-//        this.meeting = meeting;
-//        this.user = user;
-//    }
-
     public CommentResponseDto toCommentResponseDto() {
         return CommentResponseDto.builder()
+                .commentId(this.getId())
                 .nickname(this.user.getNickname())
                 .content(this.content)
                 .createdAt(this.getCreatedAt())

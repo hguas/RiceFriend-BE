@@ -22,10 +22,9 @@ public class JwtAuthenticationProvider {
 
     private String secretKey = "sparta";
 
-    private Long tokenValidTime = 1000L * 60 * 60;
+    private Long tokenValidTime = 1000L * 60 * 60; // 1시간
 
     private final PrincipalDetailsService principalDetailsService;
-
 
     // JWT 토큰 생성
     public String createToken(String userPk, String email, String gender) {

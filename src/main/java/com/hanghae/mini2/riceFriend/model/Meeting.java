@@ -79,6 +79,7 @@ public class Meeting extends Timestamp {
         this.content = requestDto.getContent();
         this.date = requestDto.getMeetingDate();
         this.limitMember = requestDto.getLimitMember();
+        this.setModifiedAt(LocalDateTime.now());
     }
 
 }

@@ -29,6 +29,7 @@ public class MeetingUser {
 
     public MeetingUserResponseDto toMeetingUserResponseDto() {
         return MeetingUserResponseDto.builder()
+                .email(this.user.getEmail())
                 .nickname(this.user.getNickname())
                 .gender(this.user.getGender())
                 .build();
